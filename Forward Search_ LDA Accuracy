@@ -15,12 +15,24 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 ###############################################################################
 # *********************************  CODE BODY ********************************  
 #Load the original dataset. The dataset can be accessed here: https://braganeto.engr.tamu.edu/book-website/
+#The pre-processing to remove zero components is from: https://braganeto.engr.tamu.edu/book-website/
 dataPoints  = pd.read_table("Stacking_Fault_Energy_Dataset.txt")
+f_org = dataPoints.columns[:-1]                # original features 
+n_org = dataPoints.shape[0]                    # original number of training points
+p_org = np.sum(dataPoints.iloc[:,:-1]>0)/n_org # fraction of nonzero components for each feature
+f_drp = f_org[p_org<0.6]		             # features with less than 60% nonzero components
+SFE1  = dataPoints.drop(f_drp,axis=1)          # drop those features
+s_min = SFE1.min(axis=1)                     
+SFE2  = SFE1[s_min!=0]                       # drop sample points with any zero values  
+SFE   = SFE2[(SFE2.SFE<35)|(SFE2.SFE>45)]    # drop sample points with middle responses
+n_samples = int(SFE.shape[0])
+Y = SFE.SFE > 40 # if SFE > 40, Y =true , else Y=false
+# so Y == True and ~Y==False which represent the labels
 
 #Pick the first 80% of the sample points to be the training data and the remaining 20% to be the test data.
-splitPoint = int(0.8*len(dataPoints))
-trainSample = dataPoints[:splitPoint] 
-testSample = dataPoints[splitPoint:]
+splitPoint = int(0.8*len(SFE))
+trainSample = SFE[:splitPoint] 
+testSample = SFE[splitPoint:]
 #Two classes are defined: Class 0 contains the data with Stacking_Fault_Energy (SFE) > 40 and class 1 includes the data resulting SFE < 40.
 train_X = trainSample.iloc[:,:-1].values 
 train_Y = trainSample.iloc[:,-1]>40 
