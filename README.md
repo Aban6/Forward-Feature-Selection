@@ -1,1 +1,3 @@
 # Forward-Feature-Selection
+## Python-Forward search
+The Forward Feature Selection, also known as step forward feature selection (or sequential forward feature selection — SFS), is an iterative method in which we start by evaluating all features individually, and then select the one that results in the best performance. In the second step, it tests all possible combinations of the selected feature with the remaining features and retains the pair that produces the best algorithmic performance. And the loop continues by adding one feature at a time in each iteration until the pre-set criterion is reached (https://heartbeat.fritz.ai/hands-on-with-feature-selection-techniques-wrapper-methods-5bb6d99b1274).
