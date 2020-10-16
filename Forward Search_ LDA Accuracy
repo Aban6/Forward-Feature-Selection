@@ -8,8 +8,11 @@
 # *****************************************************************************
 
 # *******************************  LIBRARIES  *********************************
+import numpy as np
 import pandas as pd
+import seaborn as sns
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+from sklearn import metrics
 ###############################################################################
 
 ###############################################################################
